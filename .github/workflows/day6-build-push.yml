@@ -1,14 +1,15 @@
 # 366140438193.dkr.ecr.ap-south-1.amazonaws.com/bootcampflask:v1
-name: day4 Build-Push
+name: day6 Build-Push docker
 
 on:
   # push:
-  #   branches:
-  #     - main
-  #   paths:
-  #     - 'day3/**' 
-  #     - '.github/workflows/build-push-day3.yml'
+    # branches:
+    #   - main
+    # paths:
+    #   - 'day6/src/**' 
   workflow_dispatch:
+env:
+  ECR_REPO: 366140438193.dkr.ecr.ap-south-1.amazonaws.com/bootcamp-dev-2-tier-flask
 
 jobs:
   build:
@@ -26,9 +27,9 @@ jobs:
         aws-region: ap-south-1  # Replace with your AWS region
 
     - name: Login to Amazon ECR
-      run: aws ecr get-login-password --region ap-south-1 | docker login --username AWS --password-stdin 366140438193.dkr.ecr.ap-south-1.amazonaws.com
+      run: aws ecr get-login-password --region ap-south-1 | docker login --username AWS --password-stdin ${{  env.ECR_REPO }}
     - name: Build, Tag, and Push Docker Image
       run: |
-        cd day3/src
-        docker build -t 366140438193.dkr.ecr.ap-south-1.amazonaws.com/bootcampflask:day4 .
-        docker push 366140438193.dkr.ecr.ap-south-1.amazonaws.com/bootcampflask:day4
+        cd day6/src
+        docker build -t ${{  env.ECR_REPO }}:day6 .
+        docker push ${{  env.ECR_REPO }}:day6
